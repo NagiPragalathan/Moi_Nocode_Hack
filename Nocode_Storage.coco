@@ -1,53 +1,66 @@
+// A logic for managing data storage
 coco DataStorage
 
-// Define the persistent state variables
+// The persistent state is used to define stateful
+// values managed intrinsically by the logic. Only 
+// a single call can access these values at a time.
 state persistent:
-    data_ids Map[U256]U256
-    data_htmls Map[U256]String
-    data_csss Map[U256]String
-    data_addresses Map[U256]Address
+    Address_user  String // Address of the user
+    contract_id      U256 // Identifier for the contract
+    Html_Css    Map[Address]String // Map of addresses and HTML/CSS strings
+    address Map[Address]Address // Map of addresses
 
-// AddData() is an invokable that adds a new data record
-endpoint invokable AddData!(id U256, html_string String, css_string String, account_address Address):
-    mutate data_ids <- DataStorage.State.data_ids:
-        data_ids[id] = id
-    mutate data_htmls <- DataStorage.State.data_htmls:
-        data_htmls[id] = html_string
-    mutate data_csss <- DataStorage.State.data_csss:
-        data_csss[id] = css_string
-    mutate data_addresses <- DataStorage.State.data_addresses:
-        data_addresses[id] = account_address
+// Seed!() deployer is a constructor that sets
+// the given initial values for the logic state.
+endpoint deployer Seed!(Address_user String, contract_id U256):
+    mutate Address_user -> DataStorage.State.Address_user
+    mutate contract_id -> DataStorage.State.contract_id
 
-// GetData() is an invokable that retrieves the data record for a given id
-endpoint invokable GetData(id U256) -> (html_string String, css_string String, account_address Address):
-    var found_id U64
-    var found_id = data_ids[id]
-    if found_id != 0:
-        yield html_string data_htmls[found_id]
-        yield css_string data_csss[found_id]
-        yield account_address data_addresses[found_id]
+// Address_user() is an invokable that returns the 
+// current Address_user for the logic state
+endpoint invokable Address_user() -> (Address_user String):
+    observe Address_user <- DataStorage.State.Address_user
 
-// UpdateData() is an invokable that updates the data record for a given id
-endpoint invokable UpdateData!(id U256, html_string String, css_string String, account_address Address):
-    var found_id U64
-    found_id = data_ids[id]
-    if found_id != 0:
-        mutate data_htmls <- DataStorage.State.data_htmls:
-            data_htmls[found_id] = html_string
-        mutate data_csss <- DataStorage.State.data_csss:
-            data_csss[found_id] = css_string
-        mutate data_addresses <- DataStorage.State.data_addresses:
-            data_addresses[found_id] = account_address
+// Totalcontract_id() is an invokable that returns the 
+// contract_id U64 value stored in the logic state
+endpoint invokable Totalcontract_id() -> (contract_id U256):
+    observe contract_id <- DataStorage.State.contract_id
 
-// DeleteData() is an invokable that deletes the data record for a given id
-endpoint invokable DeleteData!(id U256):
-    var found_id = data_ids[id]
-    if found_id != 0:
-        mutate data_ids <- DataStorage.State.data_ids:
-            data_ids[id] = 0
-        mutate data_htmls <- DataStorage.State.data_htmls:
-            data_htmls[found_id] = ""
-        mutate data_csss <- DataStorage.State.data_csss:
-            data_csss[found_id] = ""
-        mutate data_addresses <- DataStorage.State.data_addresses:
-            data_addresses[found_id] = ""
+// GetCode() is an invokable that returns the 
+// HTML/CSS code associated with the given address
+endpoint invokable GetCode(address Address) -> (code String):
+    observe Html_Css <- DataStorage.State.Html_Css:
+        yield code Html_Css[address]
+
+// Transfer!() is a stateful invokable that 
+// moves the given HTML/CSS code from the sender's 
+// address to the receiver's given address
+endpoint invokable Transfer!(receiver Address, code String):
+    var sender = Address(Sender)
+
+    if !sender: throw f"zero address for sender"
+    if !receiver: throw f"zero address for receiver"
+
+    mutate Html_Css <- DataStorage.State.Html_Css:
+        var sender_code = Html_Css[sender]
+        if sender_code == "":
+            throw "sender has no code to transfer"
+        
+        Html_Css[sender] = ""
+        Html_Css[receiver] = code
+
+// Code_Html_Css!() is a stateful invokable that  
+// updates the HTML/CSS code associated with the sender's address
+endpoint invokable Code_Html_Css!(new_code String):
+    var account = Address(Sender) 
+
+    mutate Html_Css <- DataStorage.State.Html_Css:
+        var current_code = Html_Css[account]
+
+        if current_code == "":
+            throw "No existing code to update"
+
+        Html_Css[account] = new_code
+
+    mutate contract_id <- DataStorage.State.contract_id:
+        contract_id -= 1
