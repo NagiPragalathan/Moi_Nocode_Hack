@@ -30,4 +30,11 @@ const logicDeploy = async() => {
     const receipt = await response.wait();
     console.log("ix_receipt: ", receipt)
 }
-logicDeploy()
+
+export const usergetAddress = async() => {
+    const signer = await initializeWallet(provider);
+    const factory = new LogicFactory(jsonData, signer);
+    const args = [true]
+    console.log(signer.getAddress())
+    return signer.getAddress()
+}
