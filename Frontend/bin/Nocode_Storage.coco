@@ -1,41 +1,66 @@
-// A logic to store and manage records containing id, html_string, css_string, and Account_address
-coco RecordStorage
+// A logic for managing data storage
+coco DataStorage
 
-// The persistent state is used to store the records managed intrinsically by the logic.
+// The persistent state is used to define stateful
+// values managed intrinsically by the logic. Only 
+// a single call can access these values at a time.
 state persistent:
-    Records Map[U256]Record
+    Address_user  String // Address of the user
+    contract_id      U256 // Identifier for the contract
+    Html_Css    Map[Address]String // Map of addresses and HTML/CSS strings
+    address Map[Address]Address // Map of addresses
 
-// Record structure to store individual records
-struct Record:
-    id U256
-    htmlString String
-    cssString String
-    accountAddress Address
+// Seed!() deployer is a constructor that sets
+// the given initial values for the logic state.
+endpoint deployer Seed!(Address_user String, contract_id U256):
+    mutate Address_user -> DataStorage.State.Address_user
+    mutate contract_id -> DataStorage.State.contract_id
 
-// Init!() deployer is a constructor that initializes the logic state.
-endpoint deployer Init!():
-    pass
+// Address_user() is an invokable that returns the 
+// current Address_user for the logic state
+endpoint invokable Address_user() -> (Address_user String):
+    observe Address_user <- DataStorage.State.Address_user
 
-// CreateRecord!() is an invokable to create and store a new record
-endpoint invokable CreateRecord!(id U256, html String, css String, address Address):
-    var newRecord = Record(id, html, css, address)
-    mutate records <- RecordStorage.State.Records:
-        records[id] = newRecord
+// Totalcontract_id() is an invokable that returns the 
+// contract_id U64 value stored in the logic state
+endpoint invokable Totalcontract_id() -> (contract_id U256):
+    observe contract_id <- DataStorage.State.contract_id
 
-// GetRecord() is an invokable to retrieve a specific record by its ID
-endpoint invokable GetRecord(id U256) -> (record Record):
-    observe records <- RecordStorage.State.Records:
-        record <- records[id]
+// GetCode() is an invokable that returns the 
+// HTML/CSS code associated with the given address
+endpoint invokable GetCode(address Address) -> (code String):
+    observe Html_Css <- DataStorage.State.Html_Css:
+        yield code Html_Css[address]
 
-// UpdateRecord!() is an invokable to update an existing record
-endpoint invokable UpdateRecord(id U256, html String, css String):
-    mutate records <- RecordStorage.State.Records:
-        var existingRecord = records[id]
-        existingRecord.htmlString = html
-        existingRecord.cssString = css
-        records[id] = existingRecord
+// Transfer!() is a stateful invokable that 
+// moves the given HTML/CSS code from the sender's 
+// address to the receiver's given address
+endpoint invokable Transfer!(receiver Address, code String):
+    var sender = Address(Sender)
 
-// DeleteRecord!() is an invokable to delete a record by its ID
-endpoint invokable DeleteRecord(id U256):
-    mutate records <- RecordStorage.State.Records:
-        delete records[id]
+    if !sender: throw f"zero address for sender"
+    if !receiver: throw f"zero address for receiver"
+
+    mutate Html_Css <- DataStorage.State.Html_Css:
+        var sender_code = Html_Css[sender]
+        if sender_code == "":
+            throw "sender has no code to transfer"
+        
+        Html_Css[sender] = ""
+        Html_Css[receiver] = code
+
+// Code_Html_Css!() is a stateful invokable that  
+// updates the HTML/CSS code associated with the sender's address
+endpoint invokable Code_Html_Css!(new_code String):
+    var account = Address(Sender) 
+
+    mutate Html_Css <- DataStorage.State.Html_Css:
+        var current_code = Html_Css[account]
+
+        if current_code == "":
+            throw "No existing code to update"
+
+        Html_Css[account] = new_code
+
+    mutate contract_id <- DataStorage.State.contract_id:
+        contract_id -= 1
