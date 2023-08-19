@@ -34,7 +34,37 @@
             <div></div>
         </div>
     </div>
-
+    <style>
+        .address_{
+            color: white;
+            font-size: 20px;
+            background-color: black;
+            width: 45%;
+            padding: 11px;
+            overflow: scroll;
+            border-radius: 18px;
+        }
+        .address_::-webkit-scrollbar {
+            display: none;
+        }
+        .coll{
+            display: flex;
+            flex-direction: row;
+            align-content: center;
+            justify-content: flex-start;
+            align-items: center;
+            width: 50%;
+        }
+        .coll i{
+            width: 40px;
+    color: white;
+    display: flex;
+    border: 2px solid;
+    border-radius: 27px;
+    padding: 11px;
+    justify-content: center;
+        }
+    </style>
     <!-- ##### Header Area Start ##### -->
     <header class="header-area">
         <!-- Navbar Area -->
@@ -45,8 +75,14 @@
                     <nav class="classy-navbar justify-content-between" id="pixelNav">
 
                         <!-- Nav brand -->
-                        <a href=" {% static 'index.html' %} " class="nav-brand"><img src=" {% static 'img/core-img/logo.png' %} " alt=""></a>
-
+                        {% if addss %}
+                        <div class="coll" >
+                            <a><i class="fa fa-user"></i></a><span class="address_">{{ addss }}</span>
+                        </div>
+                        
+                        {% else %}
+                            <a href=" {% static 'index.html' %} " class="nav-brand"><img style="width: 17%;" src="https://cdn-icons-png.flaticon.com/512/6214/6214221.png" alt=""></a>
+                        {% endif %}
                         <!-- Navbar Toggler -->
                         <div class="classy-navbar-toggler">
                             <span class="navbarToggler"><span></span><span></span><span></span></span>
@@ -88,18 +124,18 @@
                                                 </ul>
                                             </li>
                                         </ul>
-    
-                                    <li><a href=" {% url 'contact' %} ">Contact</a></li>
+                                        
+                                        <li>
+                                            <button style="padding: 3px 17px;border-radius: 13px;border: none;">Logout</button>
+                                        </li>
                                 </ul>
 
                                 <!-- Top Social Info -->
                                 <div class="top-social-info ml-5">
-                                    <a href="https://github.com/GaneshMumbai2001"><i class="fa fa-github"></i></a>
-                                    <a href="https://www.linkedin.com/in/ganesh-mumbai-b863a3203"><i class="fa fa-linkedin"></i></a>
-                                    <a href="https://twitter.com/ganesh__mumbai?t=JwSmlCKf5RWpAcMI3IB3zA&s=09"><i class="fa fa-twitter"></i></a>
-                                    <a href="https://www.facebook.com/ganesh.mumbai.12?mibextid=ZbWKwL"><i class="fa fa-facebook"></i></a>
-                                    <a href="https://instagram.com/ganeshmumbaiofficial?igshid=NTc4MTIwNjQ2YQ=="><i class="fa fa-instagram"></i></a>
-                                    <a href="https://wa.me/+916383328121"><i class="fa fa-whatsapp"></i></a>
+                                    <a href="https://github.com/NagiPragalathan/Moi_Nocode_Hack"><i class="fa fa-github"></i></a>
+                                    <a href="https://t.me/nagipragalathan"><i class="fa fa-telegram"></i></a>
+                                    <a href="https://twitter.com/NagiPragalathan?t=S4PgfKOvu8BiabXMvqVfdg&s=09"><i class="fa fa-twitter"></i></a>
+                                    <a href="https://wa.me/+917401268091"><i class="fa fa-whatsapp"></i></a>
                                 </div>
                             </div>
                             <!-- Nav End -->
@@ -144,7 +180,7 @@
                     <div class="col-sm-4">
                         <div class="single-footer-widget mb-100">
                             <h5 class="widget-title">Support</h5>
-                            <p><i class="fa fa-phone"></i> <br>6383328121</p>
+                            <p><i class="fa fa-phone"></i> <br>------------</p>
                         </div>
                     </div>
 
@@ -153,12 +189,10 @@
                         <div class="single-footer-widget mb-100">
                             <h5 class="widget-title">Social</h5>
                             <div class="footer-social-info">
-                                <a href="https://github.com/GaneshMumbai2001"><i class="fa fa-github"></i></a>
-                                <a href="https://www.linkedin.com/in/ganesh-mumbai-b863a3203"><i class="fa fa-linkedin"></i></a>
-                                <a href="https://twitter.com/ganesh__mumbai?t=JwSmlCKf5RWpAcMI3IB3zA&s=09"><i class="fa fa-twitter"></i></a>
-                                <a href="https://www.facebook.com/ganesh.mumbai.12?mibextid=ZbWKwL"><i class="fa fa-facebook"></i></a>
-                                <a href="https://instagram.com/ganeshmumbaiofficial?igshid=NTc4MTIwNjQ2YQ=="><i class="fa fa-instagram"></i></a>
-                                <a href="https://wa.me/+916383328121"><i class="fa fa-whatsapp"></i></a>
+                                <a href="https://github.com/NagiPragalathan/Moi_Nocode_Hack"><i class="fa fa-github"></i></a>
+                                <a href="https://t.me/nagipragalathan"><i class="fa fa-telegram"></i></a>
+                                <a href="https://twitter.com/NagiPragalathan?t=S4PgfKOvu8BiabXMvqVfdg&s=09"><i class="fa fa-twitter"></i></a>
+                                <a href="https://wa.me/+917401268091"><i class="fa fa-whatsapp"></i></a>
                             </div>
                         </div>
                     </div>

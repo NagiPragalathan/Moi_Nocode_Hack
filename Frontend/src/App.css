@@ -1,25 +1,11 @@
-#root {
-  margin: 0;
-  width: 100%;
-  text-align: center;
-  height: 100%;
-}
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
 
 body {
-  background-color: #090D23;
+  background-color: black;
   transition: background-color .8s ease;
   height: 100%;
-}
-
-.container{
-  display: grid;
-  height: 100%;
-}
-
-.modal{
-  display: flex;
-  justify-content: flex-end;
-  margin: 30px 30px 0px 0px;
 }
 
 .loader{
@@ -29,45 +15,26 @@ body {
   align-items: center;
 }
 
-.wrapper {
-  width: 100%;
+.ant-modal-footer button:nth-child(2){
+  background-color: rgb(0, 187, 255);
+}
+
+.modal{
+  height: 60px;
   display: flex;
-  justify-content: center;
-  margin-left: 100px;
+  background-color: #000a21;
+  align-items: center;
+  justify-content: flex-end;
+  align-content: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
-
-.wrapper.noClick{
-  cursor: not-allowed;
+.modal button{
+  margin-right: 7%;
+  background-color: white;
 }
-
 #checkbox {
   display: none;
-}
-
-.noClick{
-  cursor: not-allowed;
-}
-
-.svg.noClick {
-  cursor: not-allowed;
-}
-
-.svg{
-  cursor: pointer;
-}
-
-.effect-circ {
-  transform-origin: 100px 100px;
-  transform: scale(0);
-  fill: #FFB300;
-  opacity: 0;
-}
-
-.sun {
-  transform-origin: 100px 100px;
-  transform: scale(1);
-  fill: #E0E0E0;
-  transition: fill .8s ease;
 }
 
 .craters {
@@ -76,71 +43,6 @@ body {
   opacity: 1;
   transition: transform .8s ease;
   transition: opacity .8s ease;
-}
-
-.clouds {
-  transform: translate(200px, 0);
-  opacity: 0;
-  transition: all .4s ease;
-}
-.stars {
-  transition: opacity 2s ease;
-  opacity: 1;
-}
-
-.explosion {
-  transform-origin: 100px 100px;
-  fill: #FF9800;
-  opacity: 0;
-  transform: translate(0, 0) scale(0);
-}
-
-/* When checked */
-#checkbox:checked + label > .svg {
-  & .effect-circ {
-    animation: circleAnimation .2s linear;
-  }
-  & .sun {
-    fill: #FFC107;
-    animation: iconAnimation .2s linear;
-  }
-  & .craters {
-    transform: scale(0);
-    opacity: 0;
-  }
-  & .clouds {
-    transform: translate(0, 0);
-    opacity: 1;
-    transition: all .4s cubic-bezier(0, 1.51, 0.72, 0.96);
-  }
-  & .stars {
-    transition: opacity .4s ease;
-    opacity: 0;
-  }
-  & .northWestExplosion {
-    animation: northWestExplosionAnimation .4s linear;
-  }
-  & .northExplosion {
-    animation: northExplosionAnimation .4s linear;
-  }
-  & .northEastExplosion {
-    animation: northEastExplosionAnimation .4s linear;
-  }
-  & .eastExplosion {
-    animation: eastExplosionAnimation .4s linear;
-  }
-  & .southEastExplosion {
-    animation: southEastExplosionAnimation .4s linear;
-  }
-  & .southExplosion {
-    animation: southExplosionAnimation .4s linear;
-  }
-  & .southWestExplosion {
-    animation: southWestExplosionAnimation .4s linear;
-  }
-  & .westExplosion {
-    animation: westExplosionAnimation .4s linear;
-  }
 }
 
 /* KEYFRAMES */

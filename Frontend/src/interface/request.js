@@ -1,6 +1,6 @@
 import { VoyageProvider, Wallet, getLogicDriver } from 'js-moi-sdk'
 import { MNEMONIC } from '../constants/constants';
-import deploy from './deploy.js';
+// import deploy from './deploy.js';
 
 const provider = new VoyageProvider('babylon');
 
