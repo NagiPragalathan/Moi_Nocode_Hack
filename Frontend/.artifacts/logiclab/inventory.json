@@ -1,0 +1,16 @@
+{
+	"Config": {
+		"BaseFuel": 10000,
+		"HexBig": true,
+		"HexBytes": true
+	},
+	"Sender": "nagi",
+	"Receiver": "",
+	"Participants": {
+		"mohan": "0xae63024849d8dbf26998ee96c52e218cfd34d8d6e9b63fe6f9b4f0412c17481e",
+		"nagi": "0x9b05893302cc660a63fdb0f3e467b60550f6bec4ba43c1bd62c1f57443521d03"
+	},
+	"LogicAccounts": {
+		"Flipper": "0x080000672b66cf4f52da02472dc2aef53775a3f47c49d4f03381b3a4a4e2ef89f881e5"
+	}
+}

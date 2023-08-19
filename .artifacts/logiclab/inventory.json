@@ -1,0 +1,11 @@
+{
+	"Config": {
+		"BaseFuel": 10000,
+		"HexBig": true,
+		"HexBytes": true
+	},
+	"Sender": "",
+	"Receiver": "",
+	"Participants": {},
+	"LogicAccounts": {}
+}

@@ -1,0 +1,53 @@
+coco DataStorage
+
+// Define the persistent state variables
+state persistent:
+    data_ids Map[U256]U256
+    data_htmls Map[U256]String
+    data_csss Map[U256]String
+    data_addresses Map[U256]Address
+
+// AddData() is an invokable that adds a new data record
+endpoint invokable AddData!(id U256, html_string String, css_string String, account_address Address):
+    mutate data_ids <- DataStorage.State.data_ids:
+        data_ids[id] = id
+    mutate data_htmls <- DataStorage.State.data_htmls:
+        data_htmls[id] = html_string
+    mutate data_csss <- DataStorage.State.data_csss:
+        data_csss[id] = css_string
+    mutate data_addresses <- DataStorage.State.data_addresses:
+        data_addresses[id] = account_address
+
+// GetData() is an invokable that retrieves the data record for a given id
+endpoint invokable GetData(id U256) -> (html_string String, css_string String, account_address Address):
+    var found_id U64
+    var found_id = data_ids[id]
+    if found_id != 0:
+        yield html_string data_htmls[found_id]
+        yield css_string data_csss[found_id]
+        yield account_address data_addresses[found_id]
+
+// UpdateData() is an invokable that updates the data record for a given id
+endpoint invokable UpdateData!(id U256, html_string String, css_string String, account_address Address):
+    var found_id U64
+    found_id = data_ids[id]
+    if found_id != 0:
+        mutate data_htmls <- DataStorage.State.data_htmls:
+            data_htmls[found_id] = html_string
+        mutate data_csss <- DataStorage.State.data_csss:
+            data_csss[found_id] = css_string
+        mutate data_addresses <- DataStorage.State.data_addresses:
+            data_addresses[found_id] = account_address
+
+// DeleteData() is an invokable that deletes the data record for a given id
+endpoint invokable DeleteData!(id U256):
+    var found_id = data_ids[id]
+    if found_id != 0:
+        mutate data_ids <- DataStorage.State.data_ids:
+            data_ids[id] = 0
+        mutate data_htmls <- DataStorage.State.data_htmls:
+            data_htmls[found_id] = ""
+        mutate data_csss <- DataStorage.State.data_csss:
+            data_csss[found_id] = ""
+        mutate data_addresses <- DataStorage.State.data_addresses:
+            data_addresses[found_id] = ""

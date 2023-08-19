@@ -1,0 +1,12 @@
+{
+	"Username": "mohan",
+	"Address": "0xae63024849d8dbf26998ee96c52e218cfd34d8d6e9b63fe6f9b4f0412c17481e",
+	"CtxState": {
+		"Address": "0xae63024849d8dbf26998ee96c52e218cfd34d8d6e9b63fe6f9b4f0412c17481e",
+		"Datastore": {},
+		"LogicState": {},
+		"Spendable": {},
+		"Approvals": {},
+		"Lockups": {}
+	}
+}

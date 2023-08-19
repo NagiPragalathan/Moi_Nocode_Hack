@@ -1,0 +1,12 @@
+{
+	"Username": "nagi",
+	"Address": "0x9b05893302cc660a63fdb0f3e467b60550f6bec4ba43c1bd62c1f57443521d03",
+	"CtxState": {
+		"Address": "0x9b05893302cc660a63fdb0f3e467b60550f6bec4ba43c1bd62c1f57443521d03",
+		"Datastore": {},
+		"LogicState": {},
+		"Spendable": {},
+		"Approvals": {},
+		"Lockups": {}
+	}
+}

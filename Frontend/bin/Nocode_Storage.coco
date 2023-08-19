@@ -1,0 +1,41 @@
+// A logic to store and manage records containing id, html_string, css_string, and Account_address
+coco RecordStorage
+
+// The persistent state is used to store the records managed intrinsically by the logic.
+state persistent:
+    Records Map[U256]Record
+
+// Record structure to store individual records
+struct Record:
+    id U256
+    htmlString String
+    cssString String
+    accountAddress Address
+
+// Init!() deployer is a constructor that initializes the logic state.
+endpoint deployer Init!():
+    pass
+
+// CreateRecord!() is an invokable to create and store a new record
+endpoint invokable CreateRecord!(id U256, html String, css String, address Address):
+    var newRecord = Record(id, html, css, address)
+    mutate records <- RecordStorage.State.Records:
+        records[id] = newRecord
+
+// GetRecord() is an invokable to retrieve a specific record by its ID
+endpoint invokable GetRecord(id U256) -> (record Record):
+    observe records <- RecordStorage.State.Records:
+        record <- records[id]
+
+// UpdateRecord!() is an invokable to update an existing record
+endpoint invokable UpdateRecord(id U256, html String, css String):
+    mutate records <- RecordStorage.State.Records:
+        var existingRecord = records[id]
+        existingRecord.htmlString = html
+        existingRecord.cssString = css
+        records[id] = existingRecord
+
+// DeleteRecord!() is an invokable to delete a record by its ID
+endpoint invokable DeleteRecord(id U256):
+    mutate records <- RecordStorage.State.Records:
+        delete records[id]
