@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Spin, Button } from 'antd'
 import './App.css'
 import { logicGet, logicSet } from './interface/request';
+import { usergetAddress } from './interface/deploy';
 import MnemonicModal from './components/Modal';
 import HomeStyle from './components/home';
 import { validateMnemonic } from 'js-moi-sdk'
@@ -14,10 +15,21 @@ function App() {
   const [error, setError] = useState("");
   const [click, setClick] = useState(false);
 
-  if (mnemonic){
-    console.log("mnemonic",mnemonic)
-    // window.location.href ="https://fancytailwind.com/app/fancy-laboratory/organisms/heros/hero8"
-  }
+  
+  const handleMnemonicChange = async (event) => {
+    if (mnemonic) {
+      try {
+        const address = await usergetAddress();
+        console.log('mnemonic', mnemonic);
+        console.log('address', address, typeof address);
+        window.location.href ="https://moi-nocode-hack-ay12ygran-nagipragalathan.vercel.app/home/"+address
+      } catch (error) {
+        setError('Error getting user address');
+        console.error(error);
+      }
+    }
+  };
+  handleMnemonicChange()
 
   const showModal = () => {
     setIsModalOpen(true);

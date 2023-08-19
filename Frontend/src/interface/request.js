@@ -37,7 +37,7 @@ export const logicSet = async(userValue) => {
                 fuelPrice: 1,
                 fuelLimit: 1000,
             })
-
+    
     console.log("ix_hash: ", response.hash)
 
     try {
