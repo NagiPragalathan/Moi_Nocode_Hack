@@ -44,13 +44,117 @@ Traditional website development often requires coding expertise, creating a barr
 ## Getting Started
 
 ### Installation
+# Nocode Storage Module Compilation and Deployment Guide
+
+Welcome to the Nocode Storage Module Compilation and Deployment Guide! This guide will walk you through the process of compiling and deploying the Nocode Storage module using the Coco compiler and the Moi protocol. Follow the steps below to get started.
+
+## Step 1: Compile the Nocode Storage Module
+
+To begin, compile the Nocode Storage module using the Coco compiler. Open your terminal and execute the following command:
+
+bashCopy code
+
+`coco compile nocode_storage.coco --format json` 
+
+This command will generate the `nocode_storage.json` file within the `bin` directory.
+
+## Step 2: Deploy the Nocode Storage Logic
+
+Deploy the Nocode Storage logic to the Moi protocol using the provided JavaScript code snippet. This code establishes a connection to the protocol and deploys the logic as specified. Before proceeding, make sure you have the necessary dependencies installed.
+
+javascriptCopy code (deploy.js)
+
+```
+const provider = new VoyageProvider('babylon');
+
+const initializeWallet = async () => {
+    const derivationPath = "m/44'/6174'/0'/0/1";
+    const wallet = new Wallet(provider);
+    await wallet.fromMnemonic(MNEMONIC, derivationPath);
+    return wallet;
+}
+
+const logicDeploy = async () => {
+    const signer = await initializeWallet(provider);
+    const factory = new LogicFactory(nocode_storage, signer);
+    const args = [true];
+
+    const response = await factory.deploy("Seed!", args).send({
+        sender: signer.getAddress(),
+        fuelPrice: 1,
+        fuelLimit: 1000,
+    });
+
+    console.log("Deployment Hash: ", response.hash);
+
+    const result = await response.result();
+    console.log("Deployment Result: ", result);
+
+    const receipt = await response.wait();
+    console.log("Deployment Receipt: ", receipt);
+}
+```
+
+Executing this step will deploy the manifest (`nocode_storage.json`). After successful deployment, you will receive a deployment hash, result, and receipt.
 
 Follow these steps to set up and run the project locally:
 
-1. Clone the repository: `git clone https://github.com/yourusername/nocode-platform.git`
-2. Navigate to the project directory: `cd nocode-platform`
+1. Clone the repository: `git clone https://github.com/NagiPragalathan/Moi_Nocode_Hack.git`
+2. Navigate to the project directory: `cd Frontend`
 3. Install frontend dependencies: `npm install`
-4. Install backend dependencies: `pip install -r requirements.txt`
+4. Running the App Locally
+
+    1\. Setup environment variable:** Create a new directory named env in the root directory of your project. Inside the env directory, create a file named dev.env and add your seed phrase to this file.
+    
+    2\. Run the Application:** To run the application locally, follow these steps:
+    
+    - Navigate to the \`src\`\` directory using the terminal
+        
+        ```
+        cd src
+        ```
+        
+    - Install the required dependencies:
+        
+        ```
+        npm install
+        ```
+        
+    - Start the application:
+        
+        ```
+        npm start
+        ```
+5. Install backend dependencies: `pip install -r requirements.txt`'
+    1. Navigate to root:
+   
+        ```
+       cd ..
+        ```
+
+    3. Navigate to the project directory:
+    
+        ```
+       cd Backend
+        ``` 
+    
+    3. Install the required dependencies using pip:
+    
+        ```
+       pip install -r requirements.txt
+        ``` 
+    
+    5. Run database migrations:
+    
+        ```
+       python manage.py migrate
+        ``` 
+    
+    7. Start the development server:
+    
+        ```
+       python manage.py runserver
+        ```
 
 ### Prerequisites
 
