@@ -1,1 +1,1 @@
-export const MNEMONIC= process.env.REACT_APP_MNEMONIC ?? ""
+export const MNEMONIC= "pig kingdom thrive upper thing swallow cattle chief bleak cancel hood kitchen"
